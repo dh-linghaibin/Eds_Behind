@@ -2,12 +2,12 @@
 
 #include "Type.h"
 
-#define LED PA_ODR_ODR2
+#define LED PD_ODR_ODR6
 
 void LedInit(void) {
-    PA_DDR_DDR2 = 1;
-    PA_CR1_C12 = 1;
-    PA_CR2_C22 = 1;
+    PD_DDR_DDR6 = 1;
+    PD_CR1_C16 = 1;
+    PD_CR2_C26 = 1;
     
     LED = 0;
 }

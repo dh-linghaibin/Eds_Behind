@@ -6,19 +6,19 @@
 
 void ComInit(void) {
     //Watch
-    PA_DDR_DDR3 = 0;
-    PA_CR1_C13 = 0;
-    PA_CR2_C23 = 1;
+    PD_DDR_DDR4 = 0;
+    PD_CR1_C14 = 0;
+    PD_CR2_C24 = 1;
     
     //外部中断初始化
-	EXTI_CR1 &= ~BIT(0);//开启PA口中断
-	EXTI_CR1 &= ~BIT(1);
+	EXTI_CR1 &= ~BIT(6);//开启PD口中断
+	EXTI_CR1 &= ~BIT(7);
 }
 
-#define COM_BIT_OUT 	PA_ODR_ODR3
-#define COM_BIT_IN 	    PA_IDR_IDR3
-#define COM_BIT_DR      PA_DDR_DDR3
-#define COM_BIT_INT     PA_CR2_C23
+#define COM_BIT_OUT 	PD_ODR_ODR4
+#define COM_BIT_IN 	    PD_IDR_IDR4
+#define COM_BIT_DR      PD_DDR_DDR4
+#define COM_BIT_INT     PD_CR2_C24
 
 u8 ComSend(u8 data[]) {
 	u16 wait = 0;
@@ -148,9 +148,8 @@ void ComClearFlag(void) {
     rs_ok = 0;
 }
 
-
-#pragma vector=5
-__interrupt void EXTI_PORTA_IRQHandler(void)
+#pragma vector=8
+__interrupt void EXTI_PORTD_IRQHandler(void)
 {
     INTOFF
     if(ComRead(com_date) == 0x88) {

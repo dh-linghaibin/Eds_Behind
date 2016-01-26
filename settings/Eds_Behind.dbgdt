@@ -1,38 +1,85 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<Workspace>
-  <ConfigDictionary>
-    
-  <CurrentConfigs><Project>Eds_Behind/Debug</Project></CurrentConfigs></ConfigDictionary>
+<Project>
   <Desktop>
     <Static>
+      <Debug-Log>
+        
+        
+      <ColumnWidth0>23</ColumnWidth0><ColumnWidth1>1170</ColumnWidth1></Debug-Log>
+      <Build>
+        <ColumnWidth0>23</ColumnWidth0>
+        <ColumnWidth1>877</ColumnWidth1>
+        <ColumnWidth2>234</ColumnWidth2>
+        <ColumnWidth3>58</ColumnWidth3>
+      </Build>
       <Workspace>
         <ColumnWidths>
           
           
           
           
-        <Column0>204</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>245</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
-      <Build>
+      <Disassembly>
+        <col-names>
+          
+          
+        <item>Disassembly</item><item>_I0</item></col-names>
+        <col-widths>
+          
+          
+        <item>500</item><item>20</item></col-widths>
+        <DisasmHistory/>
         
         
-        
-        
-      <ColumnWidth0>23</ColumnWidth0><ColumnWidth1>877</ColumnWidth1><ColumnWidth2>234</ColumnWidth2><ColumnWidth3>58</ColumnWidth3></Build>
-      <Debug-Log>
-        
-        
-      <ColumnWidth0>23</ColumnWidth0><ColumnWidth1>1170</ColumnWidth1></Debug-Log>
-      <TerminalIO/>
+      <ShowCodeCoverage>1</ShowCodeCoverage><ShowInstrProfiling>1</ShowInstrProfiling></Disassembly>
+      <StaticWatch>
+        <expressions>
+          
+          
+          
+          
+        <item>weizhi</item><item>coding_site</item><item>coding_sleep</item><item>num</item><item>i</item><item></item></expressions>
+        <col-names>
+          
+          
+          
+          
+        <item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names>
+        <col-widths>
+          
+          
+          
+          
+        <item>132</item><item>150</item><item>100</item><item>100</item></col-widths>
+      </StaticWatch>
     </Static>
     <Windows>
       
       
-    <Wnd2>
+      
+      
+    <Wnd0>
         <Tabs>
           <Tab>
-            <Identity>TabID-23005-24016</Identity>
+            <Identity>TabID-14850-27239</Identity>
+            <TabName>Debug Log</TabName>
+            <Factory>Debug-Log</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-14327-27249</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-25598-27242</Identity>
             <TabName>Workspace</TabName>
             <Factory>Workspace</Factory>
             <Session>
@@ -41,19 +88,22 @@
           </Tab>
         </Tabs>
         
+      <SelectedTab>0</SelectedTab></Wnd1><Wnd2>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-3579-27246</Identity>
+            <TabName>Disassembly</TabName>
+            <Factory>Disassembly</Factory>
+            <Session/>
+          </Tab>
+        </Tabs>
+        
       <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
         <Tabs>
           <Tab>
-            <Identity>TabID-525-24437</Identity>
-            <TabName>Build</TabName>
-            <Factory>Build</Factory>
-            <Session/>
-          </Tab>
-          <Tab>
-            <Identity>TabID-7238-27177</Identity>
-            <TabName>Debug Log</TabName>
-            <Factory>Debug-Log</Factory>
-            <Session/>
+            <Identity>TabID-22462-27301</Identity>
+            <TabName>Live Watch</TabName>
+            <Factory>StaticWatch</Factory>
           </Tab>
         </Tabs>
         
@@ -70,8 +120,8 @@
       
       
       
-    <Top><Row0><Sizes><Toolbar-059d32c8><key>iaridepm.enu1</key></Toolbar-059d32c8></Sizes></Row0><Row1><Sizes/></Row1><Row2><Sizes/></Row2></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>846</Bottom><Right>278</Right><x>-2</x><y>-2</y><xscreen>210</xscreen><yscreen>142</yscreen><sizeHorzCX>84270</sizeHorzCX><sizeHorzCY>136933</sizeHorzCY><sizeVertCX>112360</sizeVertCX><sizeVertCY>817743</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>146</Bottom><Right>2494</Right><x>-2</x><y>-2</y><xscreen>2496</xscreen><yscreen>148</yscreen><sizeHorzCX>1001605</sizeHorzCX><sizeHorzCY>142719</sizeHorzCY><sizeVertCX>84270</sizeVertCX><sizeVertCY>136933</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-059d32c8><key>iaridepm.enu1</key></Toolbar-059d32c8></Sizes></Row0><Row1><Sizes><Toolbar-11e12cc0><key>debuggergui.enu1</key></Toolbar-11e12cc0></Sizes></Row1><Row2><Sizes/></Row2></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>767</Bottom><Right>319</Right><x>-2</x><y>-2</y><xscreen>321</xscreen><yscreen>203</yscreen><sizeHorzCX>128812</sizeHorzCX><sizeHorzCY>195757</sizeHorzCY><sizeVertCX>128812</sizeVertCX><sizeVertCY>741562</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>767</Bottom><Right>319</Right><x>-2</x><y>-2</y><xscreen>321</xscreen><yscreen>203</yscreen><sizeHorzCX>128812</sizeHorzCX><sizeHorzCY>195757</sizeHorzCY><sizeVertCX>128812</sizeVertCX><sizeVertCY>741562</sizeVertCY></Rect></Wnd2></Sizes></Row0><Row1><Sizes><Wnd3><Rect><Top>-2</Top><Left>317</Left><Bottom>767</Bottom><Right>906</Right><x>317</x><y>-2</y><xscreen>321</xscreen><yscreen>203</yscreen><sizeHorzCX>128812</sizeHorzCX><sizeHorzCY>195757</sizeHorzCY><sizeVertCX>236356</sizeVertCX><sizeVertCY>741562</sizeVertCY></Rect></Wnd3></Sizes></Row1></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>201</Bottom><Right>2494</Right><x>-2</x><y>-2</y><xscreen>2496</xscreen><yscreen>203</yscreen><sizeHorzCX>1001605</sizeHorzCX><sizeHorzCY>195757</sizeHorzCY><sizeVertCX>128812</sizeVertCX><sizeVertCY>195757</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
-</Workspace>
+</Project>
 
 

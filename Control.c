@@ -4,11 +4,11 @@
 #include "Timer.h"
 #include "Eeprom.h"
 
-#define TRANDFORMATIONP 50
+#define TRANDFORMATIONP 35
 
 #define SPEEDP 2.5
 
-static u16 stalls_add[11] = {0,2000,5000,6500,8500,10500,12000,14500,16500,19000,22000};
+static u16 stalls_add[11] = {0,21000,5000,14000,8500,10500,12000,14500,16500,19000,22000};
 static u16 stalls_start = 45000;
 
 void ControlInit(void) {
@@ -28,13 +28,14 @@ void ControlSetStart(u16 data) {
 
 static int num = 0;
 
+
 int ControlCalculateGrating(u8 stalss) {
     u16 res_position_absolutely = 0;
     u16 res_position_new = 0;
     u16 res_position_different = 0;
     u8 symbol_bit = 0;
     int rotate_num = 0;
-    res_position_absolutely = stalls_add[stalss] + stalls_start;//count position
+    res_position_absolutely = stalls_start - stalls_add[stalss];//count position
     res_position_new = MoterReadResistancePosition();//get position
     if(res_position_absolutely > res_position_new) {
         symbol_bit = 0;
@@ -76,7 +77,7 @@ u8 ControlRunPosition(int num) {
             sleep_sub = 40 - position_difference * 5;
         }
         //current = MoterReadCurrent();
-    } while(position_difference > 3);
+    } while(position_difference > 10);
     
     MoterSpeed(3,0);//stop
     

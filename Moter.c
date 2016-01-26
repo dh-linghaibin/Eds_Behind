@@ -3,21 +3,21 @@
 #include "Delay.h"
 
 #define MOTER_SLEEP PC_ODR_ODR5
-#define ResistanceEN PA_ODR_ODR1
+#define ResistanceEN PA_ODR_ODR2
 
 void MoterInit(void) {
     //position
-    PD_DDR_DDR6 = 0;
-    PD_CR1_C16 = 0;
-    PD_CR2_C26 = 0;
+    PD_DDR_DDR3 = 0;
+    PD_CR1_C13 = 0;
+    PD_CR2_C23 = 0;
     //Encoder
-    PD_DDR_DDR4 = 0;
-    PD_CR1_C14 = 1;
-    PD_CR2_C24 = 1;
+    PA_DDR_DDR3 = 0;
+    PA_CR1_C13 = 1;
+    PA_CR2_C23 = 1;
     //Position en
-    PA_DDR_DDR1 = 1;
-    PA_CR1_C11 = 1;
-    PA_CR2_C21 = 0;
+    PA_DDR_DDR2 = 1;
+    PA_CR1_C12 = 1;
+    PA_CR2_C22 = 0;
     //moto in1 
     PC_DDR_DDR7 = 1;
     PC_CR1_C17 = 1;
@@ -31,9 +31,9 @@ void MoterInit(void) {
     PC_CR1_C15 = 1;
     PC_CR2_C25 = 0;
     //moto current
-    PD_DDR_DDR5 = 0;
-    PD_CR1_C15 = 0;
-    PD_CR2_C25 = 0;
+    PD_DDR_DDR2 = 0;
+    PD_CR1_C12 = 0;
+    PD_CR2_C22 = 0;
     //PWM INIT
     TIM1_EGR |= 0x01;   //重新初始化TIM1 
 	TIM1_CR1 = 0x00;   
@@ -66,8 +66,8 @@ void MoterInit(void) {
 	ADC_CR2 |= BIT(1);//使能扫描模式
 	ADC_TDRL = 0x01;
     
-    EXTI_CR1 |= BIT(7);//Pd INT
-	EXTI_CR1 |= BIT(6); //0
+    EXTI_CR1 |= BIT(1);//PA INT
+	EXTI_CR1 |= BIT(0); //0
     
     MOTER_SLEEP = 1;
     ResistanceEN = 0; //OPEN 
@@ -89,10 +89,10 @@ u16 MoterGetAd(u8 poss) {
 }
 
 u16 MoterReadResistancePosition(void) {
-    return MoterGetAd(6);
+    return MoterGetAd(4);
 }
 u16 MoterReadCurrent(void) {
-    return MoterGetAd(5);
+    return MoterGetAd(3);
 }
 
 void MoterSpeed(u8 cmd, u8 speed) {
@@ -138,8 +138,8 @@ u16 MoterGetSleep(void) {
     return coding_sleep;
 }
 
-#pragma vector=8
-__interrupt void EXTI_PORTD_IRQHandler(void)
+#pragma vector=5
+__interrupt void EXTI_PORTA_IRQHandler(void)
 {
     INTOFF
     coding_site++;

@@ -23,28 +23,24 @@ int main( void ) {
     LedInit();
     MoterInit();
     TimerInit();
-    MoterSpeed(1,250);
-    while(1);
     INTEN
     while(1) {
-        weizhi = MoterReadResistancePosition();//get position
-        if(TimerGetTimeFlag() == 4) {
+        //weizhi = MoterReadResistancePosition();//get position
+        if(TimerGetTimeFlag() > 5) {
             TimerClearTimeFlag();
-            ControlRunPosition(ControlCalculateGrating(i));
-            if(dr == 0) {
-                if(i < 1) {
-                    i++;
-                } else {
-                    dr = 1;
-                }
+            if(i == 0) {
+                i = 1;
             } else {
-                if(i > 0) {
-                    i--;
-                } else {
-                    dr = 0;
-                }
+                i = 0;
             }
+            ControlRunPosition(ControlCalculateGrating(i));
             
+            if(i == 0) {DelayMs(2000);
+                //ControlRunPosition(ControlCalculateGrating(2));
+            } else {DelayMs(2000);
+                //ControlRunPosition(ControlCalculateGrating(3));
+            }
+            TimerClearTimeFlag();
         }
         if(ComGetFlag() == 0x80) {
             ComClearFlag();
