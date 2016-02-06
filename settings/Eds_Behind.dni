@@ -36,11 +36,13 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=-1857295465
+Checksum=1944885035
 [CallStack]
 ShowArgs=0
 [Disassembly]
 MixedMode=1
+[array_types]
+Fmt0=u8[5]	4	0
 [watch_formats]
 Fmt0={W}42:i	3	0
 [DataSample]
@@ -56,8 +58,7 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\main.c}.30.13" 1 0 0 0 "" 0 ""
-Count=1
+Count=0
 [Aliases]
 Count=0
 SuppressDialog=0

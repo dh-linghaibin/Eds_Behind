@@ -8,6 +8,11 @@ void ControlInit(void);
 int ControlCalculateGrating(u8 stalss);
 u8 ControlRunPosition(int num);
 
+u8 ControlSetStallsSub(void);
+u8 ControlSetStallsAdd(void);
+u8 ControlGetStall(void);
+void ControlSetStall(u8 cmd);
+void ControlSetStart(void);
 
 #endif
 

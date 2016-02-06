@@ -14,6 +14,8 @@ void MoterSetSleep(u8 cmd);
 u16 MoterGetSleep(void);
 
 u16 MoterReadCurrent(void);
+void MoterSleep(void);
+void MoterOpen(void);
 
 #endif
 
