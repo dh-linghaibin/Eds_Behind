@@ -9,9 +9,15 @@
 
 #define SPEEDP 2.5
                               //     5000  8000                           
-static u16 stalls_add[4] = {0,21000,4000,12000};
-static u16 stalls_start = 45000;
+static const u16 stalls_add[4] = {0,30000,4000,15000};
+                          //0,21000,4000,12000
+                       //上链位置 
+static const u16 stalls_read_add1[10] = {0,0,0,0,0,0,3000,3000,3000,3000};
+static const u16 stalls_read_add2[10] = {0,0,0,0,6000,6000,8000,8000,11000,11000};//下链
+static u16 stalls_start = 50000;
+                        //45000
 static u8 stalls = 0;
+static u8 stalls_rear = 0;
 
 void ControlInit(void) {
     if(EepromRead(10) != 0x55) {
@@ -19,8 +25,10 @@ void ControlInit(void) {
         EepromWrite(11, TypeDecomposeU16(stalls_start, 0));
         EepromWrite(12, TypeDecomposeU16(stalls_start, 1));
         EepromWrite(13, stalls);
+        EepromWrite(14, stalls_rear);
     }
     stalls = EepromRead(13);
+    stalls_rear = EepromRead(14);
     //stalls_start = TypeCombinationU16(EepromRead(11), EepromRead(12));
 }
 
@@ -47,6 +55,15 @@ void ControlSetStart(void) {
     stalls_start = ConterResistancePositionFiltering();
     EepromWrite(11, TypeDecomposeU16(stalls_start, 0));
     EepromWrite(12, TypeDecomposeU16(stalls_start, 1));
+}
+
+void ControlSetRear(u8 cmd) {
+    stalls_rear = cmd;
+    EepromWrite(14, stalls_rear);
+}
+
+u8 ControlGetStart(void) {
+    return stalls_start;
 }
 
 static u8 stalls_fist = 0;
@@ -78,13 +95,19 @@ void ControlSetStall(u8 cmd) {
     EepromWrite(13, stalls);
 }
 
-int ControlCalculateGrating(u8 stalss) {
+int ControlCalculateGrating(u8 stalss,u8 cmd) {
     u16 res_position_absolutely = 0;
     u16 res_position_new = 0;
     u16 res_position_different = 0;
     u8 symbol_bit = 0;
     int rotate_num = 0;
-    res_position_absolutely = stalls_start - stalls_add[stalss];//count position
+    if(cmd == 0) {
+        res_position_absolutely = stalls_start - stalls_add[stalss];//count position
+    } else if(cmd == 1) {//下链
+        res_position_absolutely = stalls_start - stalls_add[stalss] - stalls_read_add2[stalls_rear];//count position
+    } else if(cmd == 2) {//上链
+        res_position_absolutely = stalls_start - stalls_add[stalss] - stalls_read_add1[stalls_rear];//count position
+    }
     res_position_new = ConterResistancePositionFiltering();//get position
     if(res_position_absolutely > res_position_new) {
         symbol_bit = 0;
@@ -99,6 +122,7 @@ int ControlCalculateGrating(u8 stalss) {
     }
     return rotate_num;
 }
+
 
 u8 ControlRunPosition(int num) {
     static u8 dr = 0;

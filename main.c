@@ -23,32 +23,55 @@ int main( void ) {
         if(TimerGetTimeFlag() > 10) {
             TimerClearTimeFlag();
             MoterSleep();
-            //ComSendCmd(dce_gear, ControlGetStall() ,0 ,0);
         }
         if(ComGetFlag() == 0x80) {
+            u16 delay_time = 2000; 
             ComClearFlag();
             TimerClearTimeFlag();
             MoterOpen();
             switch(ComGetData(0)) {
                 case exchange_stal:
-                    if(ControlGetStall() == 1) {
+                    if(ControlGetStall() == 1) {//下链条
                         ControlSetStall(0);
-                        ControlRunPosition(ControlCalculateGrating(1));
-                        DelayMs(2000);
-                        ControlRunPosition(ControlCalculateGrating(3));
-                    } else {
+                        if( ControlRunPosition(ControlCalculateGrating(1,0)) == 0x44 ){
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
+                        }
+                        if(ControlGetStart() > 7) {
+                            delay_time = 1000;
+                        } else {
+                            delay_time = 2000;
+                        }
+                        DelayMs(delay_time);
+                        if( ControlRunPosition(ControlCalculateGrating(3,1)) == 0x44 ){
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
+                        }
+                    } else {//上链
                         ControlSetStall(1);
-                        ControlRunPosition(ControlCalculateGrating(0));
+                        if( ControlRunPosition(ControlCalculateGrating(0,0)) == 0x44 ){
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
+                        }
                         DelayMs(2000);
-                        ControlRunPosition(ControlCalculateGrating(2));
+                        if( ControlRunPosition(ControlCalculateGrating(2,2)) == 0x44 ){
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
+                        }
                     }
                     ComSendCmd(dce_gear, ControlGetStall() ,0 ,0);
                 break;
                 case add_setp:
-                    ControlRunPosition(5);
+                    if( ControlRunPosition(30) == 0x44 ){
+                        ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                        break;
+                    }
                 break;
                 case sub_setp:
-                    ControlRunPosition(-5);
+                    if( ControlRunPosition(-20) == 0x44 ){
+                        ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                        break;
+                    }
                 break;
                 case dce_gear:
                     ComSendCmd(dce_gear, ControlGetStall() ,0 ,0);
@@ -56,9 +79,24 @@ int main( void ) {
                 case set_inti:
                     ControlSetStart();
                 break;
+                case ask_rear:
+                    ControlSetRear(ComGetData(1));
+                    if(ControlGetStall() == 1) {//上链
+                        if( ControlRunPosition(ControlCalculateGrating(2,2)) == 0x44 ){
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
+                        }
+                    } else {
+                        if( ControlRunPosition(ControlCalculateGrating(3,1)) == 0x44 ){
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
+                        }
+                    }
+                break;
                 default:break;
             }
-            MoterSleep();
+            ComClearData();
+            //MoterSleep();
         }
     }
 }

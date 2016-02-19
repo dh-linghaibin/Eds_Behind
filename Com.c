@@ -139,6 +139,13 @@ u8 ComGetData(u8 num) {
     return com_date[num];
 }
 
+void ComClearData(void) {
+    u8 claer_i = 0;
+    for( ; claer_i < 5; claer_i++) {
+        com_date[claer_i] = 0x00;
+    }
+}
+
 u8 ComGetFlag(void) {
     return rs_ok;
 }
