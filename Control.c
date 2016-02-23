@@ -62,6 +62,10 @@ void ControlSetRear(u8 cmd) {
     EepromWrite(14, stalls_rear);
 }
 
+u8 ControlGetRear(void) {
+    return stalls_rear;
+}
+
 u8 ControlGetStart(void) {
     return stalls_start;
 }

@@ -82,14 +82,19 @@ int main( void ) {
                 case ask_rear:
                     ControlSetRear(ComGetData(1));
                     if(ControlGetStall() == 1) {//…œ¡¥
-                        if( ControlRunPosition(ControlCalculateGrating(2,2)) == 0x44 ){
-                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
-                            break;
+                        if( (ControlGetRear() == 0x06) || (ControlGetRear() == 0x05) ) {
+                            if( ControlRunPosition(ControlCalculateGrating(2,2)) == 0x44 ){
+                                ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                                break;
+                            }
                         }
                     } else {
-                        if( ControlRunPosition(ControlCalculateGrating(3,1)) == 0x44 ){
-                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
-                            break;
+                        if( (ControlGetRear() == 0x03) || (ControlGetRear() == 0x04) || (ControlGetRear() == 0x05) || 
+                           (ControlGetRear() == 0x06) ||(ControlGetRear() == 0x07) || (ControlGetRear() == 0x08) ) {
+                            if( ControlRunPosition(ControlCalculateGrating(3,1)) == 0x44 ){
+                                ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                                break;
+                            }
                         }
                     }
                 break;

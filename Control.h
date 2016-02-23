@@ -15,6 +15,7 @@ void ControlSetStall(u8 cmd);
 void ControlSetStart(void);
 void ControlSetRear(u8 cmd);
 u8 ControlGetStart(void);
+u8 ControlGetRear(void);
 
 #endif
 
