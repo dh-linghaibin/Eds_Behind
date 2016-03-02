@@ -6,6 +6,8 @@
 
 void ControlInit(void);
 int ControlCalculateGrating(u8 stalss,u8 cmd);
+int ControlCalculateGrating2(u16 stalss,u8 cmd);
+
 u8 ControlRunPosition(int num);
 
 u8 ControlSetStallsSub(void);

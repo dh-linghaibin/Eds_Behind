@@ -13,8 +13,8 @@ u8 TypeDecomposeU16(u16 data, u8 cmd) {
 
 u16 TypeCombinationU16(u8 data_h, u8 data_l) {
     u16 data = 0;
-    data = (u16)data_l;
-    data |= (u16)(data_h << 8);
+    data = (u16)data_h;
+    data |= (u16)(data_l << 8);
     return data;
 }
 

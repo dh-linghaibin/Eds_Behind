@@ -31,6 +31,7 @@ int main( void ) {
             MoterOpen();
             switch(ComGetData(0)) {
                 case exchange_stal:
+                    /*
                     if(ControlGetStall() == 1) {//下链条
                         ControlSetStall(0);
                         if( ControlRunPosition(ControlCalculateGrating(1,0)) == 0x44 ){
@@ -57,6 +58,51 @@ int main( void ) {
                         if( ControlRunPosition(ControlCalculateGrating(2,2)) == 0x44 ){
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                             break;
+                        }
+                    }*/
+                    
+                    if(ControlGetStall() == 1) {//下链条
+                        ControlSetStall(0);
+                        if( ControlRunPosition(ControlCalculateGrating2(1,3)) == 0x44 ) {
+                            ControlRunPosition(ControlCalculateGrating2(2,2));
+                            ControlSetStall(1);
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                        }
+                        DelayMs(300);
+                        if( ControlRunPosition(ControlCalculateGrating2(1,4)) == 0x44 ) {
+                            ControlRunPosition(ControlCalculateGrating2(2,2));
+                            ControlSetStall(1);
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                        }
+                        if(ControlGetStart() > 7) {
+                            delay_time = 600;
+                        } else {
+                            delay_time = 1000;
+                        }
+                        DelayMs(delay_time);
+                        if( ControlRunPosition(ControlCalculateGrating2(3,5)) == 0x44 ) {
+                            ControlRunPosition(ControlCalculateGrating2(2,2));
+                            ControlSetStall(1);
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                        }
+                    } else {//上链
+                        ControlSetStall(1);
+                        if( ControlRunPosition(ControlCalculateGrating2(0,0)) == 0x44 ) {
+                            ControlRunPosition(ControlCalculateGrating2(3,5));
+                            ControlSetStall(0);
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                        }
+                        DelayMs(1000);
+                        if( ControlRunPosition(ControlCalculateGrating2(0,1)) == 0x44 ) {
+                            ControlRunPosition(ControlCalculateGrating2(3,5));
+                            ControlSetStall(0);
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                        }
+                        DelayMs(1200);
+                        if( ControlRunPosition(ControlCalculateGrating2(2,2)) == 0x44 ) {
+                            ControlRunPosition(ControlCalculateGrating2(3,5));
+                            ControlSetStall(0);
+                            ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                         }
                     }
                     ComSendCmd(dce_gear, ControlGetStall() ,0 ,0);
