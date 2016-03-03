@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=1758779936
+Checksum=-1910945646
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -14,6 +14,8 @@ ByteLimit=50
 ShowArgs=0
 [Disassembly]
 MixedMode=1
+[watch_formats]
+Fmt0={W}42:currentxx	3	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
