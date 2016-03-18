@@ -12,6 +12,8 @@ void ComInit(void) {
     //外部中断初始化
 	EXTI_CR1 &= ~BIT(6);//开启PD口中断
 	EXTI_CR1 &= ~BIT(7);
+    
+    EXTI_CR2 = 0x03;
 }
 
 #define COM_BIT_OUT 	PD_ODR_ODR4
@@ -175,4 +177,35 @@ __interrupt void EXTI_PORTD_IRQHandler(void)
         rs_ok = 0x80;
     }
     INTEN
+    return;                    
 }
+
+    
+#pragma vector=1
+__interrupt void TRAP_IRQHandler(void)
+{
+    return;
+}
+#pragma vector=2
+__interrupt void TLI_IRQHandler(void)
+{
+    return;
+}
+#pragma vector=3
+__interrupt void AWU_IRQHandler(void)
+{
+    return;  
+}
+#pragma vector=4
+__interrupt void CLK_IRQHandler(void)
+{
+    return;
+}    
+#pragma vector=0x1A
+__interrupt void EEPROM_EEC_IRQHandler(void)
+{
+    return;
+}
+    
+    
+    

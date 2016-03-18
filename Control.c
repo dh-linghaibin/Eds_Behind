@@ -11,7 +11,7 @@
                               //     25000  8000   16000    
                                 //0,20000,6000,10000
                             //上链位置 下链位置 上链回来位置 下链回来位置
-static const u16 stalls_add[4] = {0,30000,3000,13000};
+static const u16 stalls_add[4] = {3000,30000,3000,13000};
                           //0,21000,4000,12000
                        //上链位置 
 static const u16 stalls_read_add1[10] = {0,0,0,0,0,0,3000,3000,3000,3000};
@@ -136,7 +136,7 @@ u8 ControlRunPosition(int num) {
     static u8 dr = 0;
     static u16 position_difference = 0;
    // static u8 sleep_sub = 0;
-    u16 current = 0,current_count = 0,current_count2 = 0;
+    u16 current = 0,current_count = 0;//current_count2 = 0;
     MoterSetCodingSite(0);//clear
     if(num > 0) {
         dr = 1;

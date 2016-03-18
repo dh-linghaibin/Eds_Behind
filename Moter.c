@@ -74,19 +74,25 @@ void MoterInit(void) {
     ResistanceEN = 0; //OPEN 
 }
 
+static u8 sleep_flag = 0;
+
 void MoterSleep(void) {
     LedSet(1);
+    sleep_flag = 1;
     MOTER_SLEEP = 0;
-    ResistanceEN = 1;//clear
+    //ResistanceEN = 1;//clear
     DelayMs(100);
     MCUSLEEP
 }
 
 void MoterOpen(void) {
-    LedSet(0);
-    MOTER_SLEEP = 1;
-    ResistanceEN = 0;//clear
-    DelayMs(900);
+    if(1 == sleep_flag) {
+        sleep_flag = 0;
+        //LedSet(0);
+        MOTER_SLEEP = 1;
+        //ResistanceEN = 0;//clear
+        //DelayMs(900);
+    }
 }
 
 u16 MoterGetAd(u8 poss) {
@@ -161,4 +167,5 @@ __interrupt void EXTI_PORTA_IRQHandler(void)
     coding_site++;
     coding_sleep++;
     INTEN
+    return;
 }

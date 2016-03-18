@@ -29,3 +29,4 @@ u8 EepromRead(u8 addr) {
 	p = (u8 *)(0x4000+addr);
 	return *p;
 }
+

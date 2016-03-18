@@ -18,16 +18,18 @@ int main( void ) {
     LedInit();
     MoterInit();
     TimerInit();
+    
     INTEN
     while(1) {
-        if(TimerGetTimeFlag() > 10) {
+        if(TimerGetTimeFlag() > 5) {
             TimerClearTimeFlag();
             MoterSleep();
         }
+        LedTimeService();
         if(ComGetFlag() == 0x80) {
-            u16 delay_time = 2000; 
             ComClearFlag();
             TimerClearTimeFlag();
+            LedSetModeFlicker(1);
             MoterOpen();
             switch(ComGetData(0)) {
                 case exchange_stal:
@@ -37,12 +39,14 @@ int main( void ) {
                             ControlRunPosition(ControlCalculateGrating2(2,2));
                             ControlSetStall(1);
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
                         }
                         //DelayMs(300);
                         if( ControlRunPosition(ControlCalculateGrating2(1,4)) == 0x44 ) {
                             ControlRunPosition(ControlCalculateGrating2(2,2));
                             ControlSetStall(1);
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
                         }
                         /*
                         if(ControlGetStart() > 7) {
@@ -55,6 +59,7 @@ int main( void ) {
                             ControlRunPosition(ControlCalculateGrating2(2,2));
                             ControlSetStall(1);
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
                         }
                     } else {//…œ¡¥
                         u8 flag = 0;
@@ -65,6 +70,7 @@ int main( void ) {
                             ControlRunPosition(ControlCalculateGrating2(3,5));
                             ControlSetStall(0);
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
                         } else if(flag == 0x81){
                             delay_flag = 1;
                         }
@@ -74,6 +80,7 @@ int main( void ) {
                             ControlRunPosition(ControlCalculateGrating2(3,5));
                             ControlSetStall(0);
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
                         } else if(flag == 0x81){
                             delay_flag = 1;
                         }
@@ -87,6 +94,7 @@ int main( void ) {
                             ControlRunPosition(ControlCalculateGrating2(3,5));
                             ControlSetStall(0);
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+                            break;
                         }
                     }
                     ComSendCmd(dce_gear, ControlGetStall() ,0 ,0);
