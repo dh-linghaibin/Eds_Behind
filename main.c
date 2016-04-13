@@ -1,5 +1,3 @@
-
-
 #include "Sys.h"
 #include "Com.h"
 #include "Led.h"
@@ -10,6 +8,8 @@
 #include "Control.h"
 #include "Eeprom.h"
 
+u16 xxx = 0;
+
 int main( void ) {
     SysInit();
     EeepromInit();
@@ -18,10 +18,9 @@ int main( void ) {
     LedInit();
     MoterInit();
     TimerInit();
-    
     INTEN
     while(1) {
-        if(TimerGetTimeFlag() > 5) {
+        if(TimerGetTimeFlag() > 20) {
             TimerClearTimeFlag();
             MoterSleep();
         }
@@ -41,20 +40,13 @@ int main( void ) {
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                             break;
                         }
-                        //DelayMs(300);
+                        DelayMs(600);
                         if( ControlRunPosition(ControlCalculateGrating2(1,4)) == 0x44 ) {
                             ControlRunPosition(ControlCalculateGrating2(2,2));
                             ControlSetStall(1);
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                             break;
                         }
-                        /*
-                        if(ControlGetStart() > 7) {
-                            delay_time = 300;
-                        } else {
-                            delay_time = 500;
-                        }
-                        DelayMs(delay_time);*/
                         if( ControlRunPosition(ControlCalculateGrating2(3,5)) == 0x44 ) {
                             ControlRunPosition(ControlCalculateGrating2(2,2));
                             ControlSetStall(1);
@@ -81,15 +73,16 @@ int main( void ) {
                             ControlSetStall(0);
                             ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                             break;
-                        } else if(flag == 0x81){
-                            delay_flag = 1;
-                        }
-                        if(delay_flag == 1) {
-                            DelayMs(3000);
-                        } else {
-                            DelayMs(600);
-                        }
-                       // DelayMs(1100);
+                        } 
+//                        else if(flag == 0x81){
+//                            delay_flag = 1;
+//                        }
+//                        if(delay_flag == 1) {
+//                            DelayMs(3000);
+//                        } else {
+//                            DelayMs(600);
+//                        }
+                        //DelayMs(100);
                         if( ControlRunPosition(ControlCalculateGrating2(2,2)) == 0x44 ) {
                             ControlRunPosition(ControlCalculateGrating2(3,5));
                             ControlSetStall(0);
@@ -100,13 +93,13 @@ int main( void ) {
                     ComSendCmd(dce_gear, ControlGetStall() ,0 ,0);
                 break;
                 case add_setp:
-                    if( ControlRunPosition(20) == 0x44 ){
+                    if( ControlRunPosition(15) == 0x44 ){
                         ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                         break;
                     }
                 break;
                 case sub_setp:
-                    if( ControlRunPosition(-20) == 0x44 ){
+                    if( ControlRunPosition(-15) == 0x44 ){
                         ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                         break;
                     }
@@ -118,23 +111,53 @@ int main( void ) {
                     ControlSetStart();
                 break;
                 case ask_rear:
+                    if(ControlGetRear() == ComGetData(1)) {
+                        break;
+                    }
                     ControlSetRear(ComGetData(1));
                     if(ControlGetStall() == 1) {//ÉÏÁ´
-                        if( (ControlGetRear() == 0x06) || (ControlGetRear() == 0x05) || (ControlGetRear() == 0x04)) {
-                            if( ControlRunPosition(ControlCalculateGrating(2,2)) == 0x44 ){
+//                        if(ControlGetRear() > ComGetData(1)) {
+//                            if(ControlGetRear() == 5) {
+//                                ControlRunPosition(100);
+//                            }
+//                        } else {
+//                            if(ControlGetRear() == 5) {
+//                                ControlRunPosition(-80);
+//                            }
+//                        }
+                        if( ControlRunPosition(ControlCalculateGrating2(2,2)) == 0x44 ){
                                 ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                                 break;
                             }
-                        }
+//                        if( (ControlGetRear() == 0x06) || (ControlGetRear() == 0x05) || (ControlGetRear() == 0x04)) {
+//                            if( ControlRunPosition(ControlCalculateGrating(2,2)) == 0x44 ){
+//                                ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+//                                break;
+//                            }
+//                        }
                     } else {
-                        if( (ControlGetRear() == 0x03) || (ControlGetRear() == 0x04) || (ControlGetRear() == 0x05) || 
-                           (ControlGetRear() == 0x06) ||(ControlGetRear() == 0x07) || (ControlGetRear() == 0x08) ) {
-                            if( ControlRunPosition(ControlCalculateGrating(3,1)) == 0x44 ){
+//                        if(ControlGetRear() > ComGetData(1)) {
+//                            if(ControlGetRear() == 5) {
+//                                ControlRunPosition(150);
+//                            }
+//                        } else {
+//                            if(ControlGetRear() == 5) {
+//                                ControlRunPosition(-130);
+//                            }
+//                        }
+                        if( ControlRunPosition(ControlCalculateGrating2(3,5)) == 0x44 ){
                                 ComSendCmd(stuck, ControlGetStall() ,0 ,0);
                                 break;
-                            }
                         }
+//                        if( (ControlGetRear() == 0x03) || (ControlGetRear() == 0x04) || (ControlGetRear() == 0x05) || 
+//                           (ControlGetRear() == 0x06) ||(ControlGetRear() == 0x07) || (ControlGetRear() == 0x08) ) {
+//                            if( ControlRunPosition(ControlCalculateGrating(3,1)) == 0x44 ){
+//                                ComSendCmd(stuck, ControlGetStall() ,0 ,0);
+//                                break;
+//                            }
+//                        }
                     }
+                    //ControlSetRear(ComGetData(1));
                 break;
                 default:break;
             }

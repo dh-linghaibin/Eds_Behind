@@ -5,17 +5,17 @@
 #include "Eeprom.h"
 #include "Delay.h"
 
-#define TRANDFORMATIONP 35
+#define TRANDFORMATIONP 25
 
 #define SPEEDP 2.5
                               //     25000  8000   16000    
                                 //0,20000,6000,10000
                             //上链位置 下链位置 上链回来位置 下链回来位置
-static const u16 stalls_add[4] = {3000,30000,3000,13000};
+static const u16 stalls_add[4] = {200,25000,0,22000};
                           //0,21000,4000,12000
                        //上链位置 
-static const u16 stalls_read_add1[10] = {0,0,0,0,0,0,3000,3000,3000,3000};
-static const u16 stalls_read_add2[10] = {0,0,2000,2000,5000,5000,5000,8000,8000,8000};//下链
+static const u16 stalls_read_add1[11] = {2000,2000,2000,3000,4000,5000,8000,8000,8000,8000,8000};
+static const u16 stalls_read_add2[11] = {6000,6000,6000,6000,6000,0,0,0,0,0,0};//下链//{0,0,2000,2000,5000,5000,5000,8000,8000,8000};//下链
 static u16 stalls_start = 42000;
                         //45000
                         //47000
@@ -102,35 +102,37 @@ void ControlSetStall(u8 cmd) {
     stalls = cmd;
     EepromWrite(13, stalls);
 }
+//
+//int ControlCalculateGrating(u8 stalss,u8 cmd) {
+//    u16 res_position_absolutely = 0;
+//    u16 res_position_new = 0;
+//    u16 res_position_different = 0;
+//    u8 symbol_bit = 0;
+//    int rotate_num = 0;
+//    if(cmd == 0) {
+//        res_position_absolutely = stalls_start - stalls_add[stalss];//count position
+//    } else if(cmd == 1) {//下链
+//        res_position_absolutely = stalls_start - stalls_add[stalss] - stalls_read_add2[stalls_rear];//count position
+//    } else if(cmd == 2) {//上链
+//        res_position_absolutely = stalls_start - stalls_add[stalss] - stalls_read_add1[stalls_rear];//count position
+//    }
+//    res_position_new = ConterResistancePositionFiltering();//get position
+//    if(res_position_absolutely > res_position_new) {
+//        symbol_bit = 0;
+//        res_position_different = res_position_absolutely - res_position_new;
+//    } else {
+//        symbol_bit = 1;
+//        res_position_different = res_position_new - res_position_absolutely;
+//    }
+//    rotate_num = (u16)(res_position_different/TRANDFORMATIONP);
+//    if(symbol_bit == 1) {
+//        rotate_num = 0 - rotate_num;
+//    }
+//    return rotate_num;
+//}
 
-int ControlCalculateGrating(u8 stalss,u8 cmd) {
-    u16 res_position_absolutely = 0;
-    u16 res_position_new = 0;
-    u16 res_position_different = 0;
-    u8 symbol_bit = 0;
-    int rotate_num = 0;
-    if(cmd == 0) {
-        res_position_absolutely = stalls_start - stalls_add[stalss];//count position
-    } else if(cmd == 1) {//下链
-        res_position_absolutely = stalls_start - stalls_add[stalss] - stalls_read_add2[stalls_rear];//count position
-    } else if(cmd == 2) {//上链
-        res_position_absolutely = stalls_start - stalls_add[stalss] - stalls_read_add1[stalls_rear];//count position
-    }
-    res_position_new = ConterResistancePositionFiltering();//get position
-    if(res_position_absolutely > res_position_new) {
-        symbol_bit = 0;
-        res_position_different = res_position_absolutely - res_position_new;
-    } else {
-        symbol_bit = 1;
-        res_position_different = res_position_new - res_position_absolutely;
-    }
-    rotate_num = (u16)(res_position_different/TRANDFORMATIONP);
-    if(symbol_bit == 1) {
-        rotate_num = 0 - rotate_num;
-    }
-    return rotate_num;
-}
-
+int num_sss = 0; 
+u16 unm_weizhiwe = 0;
 
 u8 ControlRunPosition(int num) {
     static u8 dr = 0;
@@ -138,6 +140,7 @@ u8 ControlRunPosition(int num) {
    // static u8 sleep_sub = 0;
     u16 current = 0,current_count = 0;//current_count2 = 0;
     MoterSetCodingSite(0);//clear
+    num_sss = num;
     if(num > 0) {
         dr = 1;
         MoterSpeed(dr,0xff);
@@ -150,22 +153,14 @@ u8 ControlRunPosition(int num) {
         return 0x80;
     }
     do {
-        position_difference = num - MoterReadCodingSite();
+        if(num > MoterReadCodingSite()) {
+            position_difference = num - MoterReadCodingSite();
+        } else {
+            position_difference = 0;
+        }
         current = MoterReadCurrent();
-        /*
-        if(dr == 1) {
-            if(current > 20000) {
-                if(current_count2 < 5000) {
-                    current_count2++;
-                } else {
-                    current_count2 = 0;
-                    MoterSpeed(3,0);//stop
-                    return 0x81;
-                }
-            }
-        }*/
-        if(current > 55000) {
-            if(current_count < 60000) {
+        if(current > 30000) {
+            if(current_count < 30000) {
                 current_count++;
             } else {
                 MoterSpeed(3,0);//stop
@@ -174,12 +169,56 @@ u8 ControlRunPosition(int num) {
         } else {
             current_count = 0;
         }
-    } while(position_difference > 10);
+    } while(position_difference > 40);
     MoterSpeed(3,0);//stop
     DelayMs(50);
+    MoterSpeed(dr,220);
+    do {
+        if(num > MoterReadCodingSite()) {
+            position_difference = num - MoterReadCodingSite();
+        } else {
+            position_difference = 0;
+        }
+        current = MoterReadCurrent();
+        if(current > 30000) {
+            if(current_count < 30000) {
+                current_count++;
+            } else {
+                MoterSpeed(3,0);//stop
+                return 0x44;
+            }
+        } else {
+            current_count = 0;
+        }
+    } while(position_difference > 30);
+    MoterSpeed(3,0);//stop
+    DelayMs(50);
+    MoterSpeed(dr,200);
+    do {
+        if(num > MoterReadCodingSite()) {
+            position_difference = num - MoterReadCodingSite();
+        } else {
+            position_difference = 0;
+        }
+        current = MoterReadCurrent();
+        if(current > 30000) {
+            if(current_count < 30000) {
+                current_count++;
+            } else {
+                MoterSpeed(3,0);//stop
+                return 0x44;
+            }
+        } else {
+            current_count = 0;
+        }
+    } while(position_difference > 5);
+    MoterSpeed(3,0);//stop
+    DelayMs(50);
+    unm_weizhiwe = ConterResistancePositionFiltering();
     return 0x80;
 }
 
+u16 unm_xxxxx = 0;
 
 //
 int ControlCalculateGrating2(u16 stalss,u8 cmd) {
@@ -189,25 +228,26 @@ int ControlCalculateGrating2(u16 stalss,u8 cmd) {
     u8 symbol_bit = 0;
     int rotate_num = 0;
     switch(cmd) {
-        case 0:
-            res_position_absolutely = stalls_start - stalls_add[stalss] - 3000;//count position
+        case 0://上链条
+            res_position_absolutely = stalls_start + stalls_add[stalss] - 3000;//count position -3000
         break;
         case 1:
-            res_position_absolutely = stalls_start - stalls_add[stalss];//count position
+            res_position_absolutely = stalls_start + stalls_add[stalss];//count position
         break;
         case 2:
-            res_position_absolutely = stalls_start - stalls_add[stalss] - stalls_read_add1[stalls_rear];
+            res_position_absolutely = stalls_start + stalls_add[stalss] - stalls_read_add1[stalls_rear];
         break;
-        case 3:
-            res_position_absolutely = stalls_start - stalls_add[stalss] + 13000;//count position
+        case 3://下链条
+            res_position_absolutely = stalls_start - stalls_add[stalss] + 6000;//count position +4000
         break;
         case 4:
             res_position_absolutely = stalls_start - stalls_add[stalss];//count position
         break;
         case 5:
-            res_position_absolutely = stalls_start - stalls_add[stalss] - stalls_read_add2[stalls_rear];//count position
+            res_position_absolutely = stalls_start - stalls_add[stalss] + stalls_read_add2[stalls_rear];//count position
         break;
     }
+    unm_xxxxx = res_position_absolutely;
     res_position_new = ConterResistancePositionFiltering();//get position
     if(res_position_absolutely > res_position_new) {
         symbol_bit = 0;

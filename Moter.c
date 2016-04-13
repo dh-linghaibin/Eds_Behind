@@ -80,7 +80,7 @@ void MoterSleep(void) {
     LedSet(1);
     sleep_flag = 1;
     MOTER_SLEEP = 0;
-    //ResistanceEN = 1;//clear
+  //ResistanceEN = 1;//clear
     DelayMs(100);
     MCUSLEEP
 }
