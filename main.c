@@ -8,19 +8,23 @@
 #include "Control.h"
 #include "Eeprom.h"
 
+
 u16 xxx = 0;
 
 int main( void ) {
     SysInit();
     EeepromInit();
+   // Write_Option_Byte();
     ControlInit();
     ComInit();
     LedInit();
     MoterInit();
     TimerInit();
+    //DelayMs(500);//等待系统上电稳定
     INTEN
     while(1) {
-        if(TimerGetTimeFlag() > 20) {
+        WWDG_CR = 0xc0;
+        if(TimerGetTimeFlag() > 800) {
             TimerClearTimeFlag();
             MoterSleep();
         }

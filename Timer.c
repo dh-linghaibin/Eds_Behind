@@ -13,9 +13,9 @@ void TimerInit(void) {
     TIM4_CR1 = 0x01;  
 }
 
-static u8 time_flag = 0;
+static u16 time_flag = 0;
 
-u8 TimerGetTimeFlag(void) {
+u16 TimerGetTimeFlag(void) {
     return time_flag;
 }
 
@@ -32,6 +32,7 @@ u16 TimerGetSpeed(void) {
 #pragma vector=0x19
 __interrupt void TIM4_UPD_OVF_IRQHandler(void)
 {
+    INTOFF
     static u16 count_time = 0;
     static u8 count_sleep = 0;
     TIM4_SR = 0x00;
@@ -50,6 +51,7 @@ __interrupt void TIM4_UPD_OVF_IRQHandler(void)
         time_speed = MoterGetSleep();
         MoterSetSleep(0);
     }
+    INTEN
     return;
 }
 

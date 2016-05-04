@@ -6,7 +6,7 @@
 #include "Type.h"
 
 void TimerInit(void);
-u8 TimerGetTimeFlag(void);
+u16 TimerGetTimeFlag(void);
 void TimerClearTimeFlag(void);
 u16 TimerGetSpeed(void);
 

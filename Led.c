@@ -43,7 +43,7 @@ void LedSetModeFlicker(u8 count) {
 ************************************************************************************************************/ 
 void LedTimeService(void) { 
     static u16 time_count = 0;
-    if(time_count < 20000) {
+    if(time_count < 40000) {
         time_count++;
     } else {
         time_count = 0;

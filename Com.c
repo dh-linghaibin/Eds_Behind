@@ -3,6 +3,11 @@
 #include "Com.h"
 #include "Delay.h"
 
+void WwdgInit( void ) {
+    WWDG_WR = 0xf0;
+    WWDG_CR = 0xc0;
+}
+
 void ComInit(void) {
     //Watch
     PD_DDR_DDR4 = 0;
@@ -14,7 +19,9 @@ void ComInit(void) {
 	EXTI_CR1 &= ~BIT(7);
     
     EXTI_CR2 = 0x03;
+    WwdgInit();
 }
+
 
 #define COM_BIT_OUT 	PD_ODR_ODR4
 #define COM_BIT_IN 	    PD_IDR_IDR4

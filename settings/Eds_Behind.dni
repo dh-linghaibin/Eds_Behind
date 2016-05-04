@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-302292352
+Checksum=-237298762
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -14,11 +14,16 @@ ByteLimit=50
 ShowArgs=0
 [Disassembly]
 MixedMode=1
+[array_types]
+Fmt0=unsigned char[6]	4	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\main.c}.16.5" 1 0 0 0 "" 0 ""
+Count=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -26,8 +31,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Breakpoints]
-Count=0
 [Aliases]
 Count=0
 SuppressDialog=0
