@@ -19,7 +19,7 @@ void ComInit(void) {
 	EXTI_CR1 &= ~BIT(7);
     
     EXTI_CR2 = 0x03;
-    WwdgInit();
+    //WwdgInit();
 }
 
 

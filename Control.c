@@ -29,6 +29,7 @@ void ControlInit(void) {
         EepromWrite(12, TypeDecomposeU16(stalls_start, 1));
         EepromWrite(13, stalls);
         EepromWrite(14, stalls_rear);
+        Write_Option_Byte();//≈‰÷√
     }
     stalls = EepromRead(13);
     stalls_rear = EepromRead(14);
